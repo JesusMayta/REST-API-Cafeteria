@@ -6,7 +6,7 @@ const UsuarioSchema = new Schema({
     correo: { type: String, required: [true, 'El correo es obligatorio'], unique: true },
     password: { type: String, required: [true, 'La contraseña es obligatoria'] },
     img: { type: String },
-    rol: { type: String, required: true, enum: ['ADMIN_ROLE', 'USER_ROLE'] },
+    rol: { type: String, default: 'USER_ROLE', required: true, enum: ['ADMIN_ROLE', 'USER_ROLE'] },
     estado: { type: Boolean, default: true },
     google: { type: Boolean, default: false }
 
@@ -16,7 +16,8 @@ const UsuarioSchema = new Schema({
 
 
 UsuarioSchema.methods.toJSON = function () {
-    const { password, ...usuario } = this.toObject();
+    const { _id, password, ...usuario } = this.toObject();
+    usuario.uid = _id;
     return usuario;
 };
 

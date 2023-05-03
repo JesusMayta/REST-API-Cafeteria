@@ -8,6 +8,7 @@ class Server {
 
         this.rutas = {
             usuariosPath: '/api/usuarios',
+            authPath: '/api/auth'
         };
 
         this.app = express();
@@ -41,6 +42,7 @@ class Server {
     };
 
     routes() {
+        this.app.use(this.rutas.authPath, require('../routes/auth.route'));
         this.app.use(this.rutas.usuariosPath, require('../routes/usuarios.route'));
     };
 

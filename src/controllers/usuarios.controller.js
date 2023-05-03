@@ -62,9 +62,8 @@ const eliminarUsuario = async (req = request, res = response) => {
     const { id } = req.params;
 
     const usuarioEliminado = await UsuarioModel.findByIdAndUpdate(id, { estado: false }, { new: true });
-    res.json({
-        msg: `El usuario ${usuarioEliminado.nombre} ha sido eliminado`,
-    });
+
+    res.json({ usuarioEliminado });
 };
 
 module.exports = {
