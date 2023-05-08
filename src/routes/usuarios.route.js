@@ -30,6 +30,7 @@ router.post('/guardar', [
 ], guardarUsuario);
 
 router.put('/editar/:id', [
+    validarJWT,
     check('id', 'El id no es válido').isMongoId(),
     check('id').custom(existeUsuarioPorId),
     check('rol').custom(esRolValido),

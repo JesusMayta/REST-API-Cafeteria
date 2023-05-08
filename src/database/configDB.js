@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('colors');
 
 const dbConnection = async () => {
 
@@ -8,8 +9,7 @@ const dbConnection = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
-
-        console.log('Base de datos online!');
+        console.log(`Base de datos online!`.cyan);
 
     } catch (error) {
         console.log(error);
