@@ -68,10 +68,11 @@ const mostrarImagen = async (req = request, res = response) => {
     if (modelo.img) {
         const { tipo } = catalogarArchivo(modelo.img);
         const pathImg = path.join(__dirname, '../uploads/', coleccion, tipo, modelo.img);
-
         if (fs.existsSync(pathImg)) {
-            return res.sendFile(pathImg);
-        };
+            return res.status(200).sendFile(pathImg);//Devuelve la imagen del servidor
+        } else {
+            return res.status(200).json(modelo.img);//Me devuelve la ruta de mi imagen cloudinary
+        }
     };
 
     res.status(404).sendFile(notFound);
