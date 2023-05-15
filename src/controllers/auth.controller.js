@@ -1,8 +1,9 @@
 const { response, request } = require("express");
 const bcryptjs = require('bcryptjs');
-const UsuarioModel = require("../models/usuario.model");
-const { generarJWT } = require("../helpers/generar-jwt");
-const { googleVerify } = require("../helpers/google-verify");
+
+const { Usuario } = require("../models");
+const { generarJWT, googleVerify } = require("../helpers");
+
 
 const loginUser = async (req = request, res = response) => {
     const { correo, password } = req.body;
@@ -10,7 +11,7 @@ const loginUser = async (req = request, res = response) => {
     try {
 
         //Verificar si el email existe
-        const usuario = await UsuarioModel.findOne({ correo });
+        const usuario = await Usuario.findOne({ correo });
         if (!usuario) {
             return res.status(400).json({
                 msg: 'El usuario y/o contraseña es incorrecto - correo'
@@ -55,7 +56,7 @@ const googleSignIn = async (req = request, res = response) => {
     try {
         const { nombre, correo, img } = await googleVerify(id_token);
 
-        let usuario = await UsuarioModel.findOne({ correo });
+        let usuario = await Usuario.findOne({ correo });
 
         if (!usuario) {
 
@@ -68,7 +69,7 @@ const googleSignIn = async (req = request, res = response) => {
                 google: true
             };
 
-            usuario = new UsuarioModel(data);
+            usuario = new Usuario(data);
             await usuario.save();
 
         };

@@ -1,6 +1,7 @@
 const { request, response } = require('express');
 const jwt = require('jsonwebtoken');
-const UsuarioModel = require('../models/usuario.model');
+
+const { Usuario } = require('../models');
 
 const validarJWT = (req = request, res = response, next) => {
 
@@ -17,7 +18,7 @@ const validarJWT = (req = request, res = response, next) => {
         if (err) {
             return res.status(401).json({ msg: 'El token no es válido' })
         } else {
-            const user = await UsuarioModel.findById(result.userId);
+            const user = await Usuario.findById(result.userId);
 
             //Verificar si el usuario existe en DB
             if (!user) {

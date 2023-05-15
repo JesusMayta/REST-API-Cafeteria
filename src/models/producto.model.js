@@ -8,13 +8,15 @@ const productoSchema = new Schema({
     precio: { type: Number, default: 0 },
     categoria: { type: Schema.Types.ObjectId, ref: 'Categoria', required: true },
     descripcion: { type: String },
-    disponible: { type: Boolean, default: true }
+    disponible: { type: Boolean, default: true },
+    img: { type: String }
 }, {
     versionKey: false
 });
 
 productoSchema.methods.toJSON = function () {
-    const { estado, ...data } = this.toObject();
+    const { _id, estado, ...data } = this.toObject();
+    data.uid = _id;
     return data;
 };
 

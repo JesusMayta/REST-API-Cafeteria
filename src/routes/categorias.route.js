@@ -1,8 +1,11 @@
 const express = require('express');
 const { check } = require('express-validator');
+
 const { listarCategorias, detalleCategoria, guardarCategoria, editarCategoria, eliminarCategoria } = require('../controllers/categorias.controller');
+
 const { validarJWT, esAdminRole, validarCampos } = require('../middlewares');
-const { existeCategoriaPorId, existeCategoriaPorNombre } = require('../helpers/dbValidators');
+const { existeCategoriaPorId, existeCategoriaPorNombre } = require('../helpers');
+
 
 const router = express.Router();
 

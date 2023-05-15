@@ -1,13 +1,9 @@
 const express = require('express');
-const { listarUsuarios, editarUsuario, guardarUsuario, eliminarUsuario, detalleUsuario } = require('../controllers/usuarios.controller');
 const { check } = require('express-validator');
-const { esRolValido, emailExiste, existeUsuarioPorId } = require('../helpers/dbValidators');
 
-// const { validarCampos } = require('../middlewares/validar-campos');
-// const { validarJWT } = require('../middlewares/validar-jwt');
-// const { esAdminRole, tieneRol } = require('../middlewares/validar-roles');
-
-const { validarCampos, validarJWT, esAdminRole, tieneRol } = require('../middlewares/index');
+const { listarUsuarios, editarUsuario, guardarUsuario, eliminarUsuario, detalleUsuario } = require('../controllers/usuarios.controller');
+const { validarCampos, validarJWT, esAdminRole, tieneRol } = require('../middlewares');
+const { emailExiste, esRolValido, existeUsuarioPorId } = require('../helpers');
 
 const router = express.Router();
 

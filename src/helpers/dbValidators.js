@@ -32,14 +32,14 @@ const existeCategoriaPorNombre = async (nombre = '') => {
 const existeCategoriaPorId = async (id) => {
     const existeCategoria = await Categoria.findById(id);
     if (!existeCategoria) {
-        throw new Error('El id no existe ne la Base de datos');
+        throw new Error('El id no existe en la Base de datos');
     };
 };
 
 const existeProductoPorId = async (id) => {
     const existeProducto = await Producto.findById(id);
     if (!existeProducto) {
-        throw new Error('El id no existe ne la Base de datos');
+        throw new Error('El id no existe en la Base de datos');
     };
 };
 
@@ -50,12 +50,39 @@ const existeProductoPorNombre = async (nombre = '') => {
     }
 };
 
+//Validar colecciones
+const coleccionesPermitidas = (coleccion = '', colecciones = []) => {
+    if (!colecciones.includes(coleccion)) {
+        throw new Error(`La coleccion ${coleccion.toUpperCase()} no es permitida: Solo -> ${colecciones}`);
+    };
+    return true;
+};
+
+const obtenerModeloImagen = async (coleccion = '', id) => {
+
+    let modelo;
+
+    switch (coleccion) {
+        case 'usuarios':
+            modelo = await Usuario.findById(id);
+            break;
+
+        case 'productos':
+            modelo = await Producto.findById(id);
+            break;
+    };
+
+    return (modelo) ? modelo : null;
+};
+
 module.exports = {
+    coleccionesPermitidas,
     emailExiste,
     esRolValido,
     existeCategoriaPorId,
     existeCategoriaPorNombre,
     existeProductoPorId,
     existeProductoPorNombre,
-    existeUsuarioPorId
+    existeUsuarioPorId,
+    obtenerModeloImagen
 }

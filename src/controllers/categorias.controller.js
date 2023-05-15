@@ -1,5 +1,5 @@
 const { request, response } = require("express");
-const CategoriaModel = require("../models/categoria.model");
+const { Categoria } = require("../models");
 
 
 const listarCategorias = async (req = request, res = response) => {
@@ -8,8 +8,8 @@ const listarCategorias = async (req = request, res = response) => {
     const estado = { estado: true };
 
     const [total, categorias] = await Promise.all([
-        CategoriaModel.countDocuments(estado),
-        CategoriaModel.find(estado)
+        Categoria.countDocuments(estado),
+        Categoria.find(estado)
             .populate({ path: 'usuario', select: ['nombre', 'rol'] })
             .skip(Number(desde))
             .limit(Number(limite))
@@ -21,7 +21,7 @@ const listarCategorias = async (req = request, res = response) => {
 const detalleCategoria = async (req = request, res = response) => {
 
     const { id } = req.params;
-    const categoria = await CategoriaModel.findById(id).populate('usuario', ['nombre', 'rol']);
+    const categoria = await Categoria.findById(id).populate('usuario', ['nombre', 'rol']);
 
     res.json(categoria);
 };
@@ -30,7 +30,7 @@ const guardarCategoria = async (req = request, res = response) => {
 
     const nombre = req.body.nombre.toUpperCase();
 
-    const categoriaDB = await CategoriaModel.findOne({ nombre });
+    const categoriaDB = await Categoria.findOne({ nombre });
 
     if (categoriaDB) {
         return res.status(400).json({
@@ -39,7 +39,7 @@ const guardarCategoria = async (req = request, res = response) => {
     };
 
     //Generar la data y guardar
-    const categoria = new CategoriaModel({ nombre, usuario: req.usuario._id });
+    const categoria = new Categoria({ nombre, usuario: req.usuario._id });
     await categoria.save();
 
     res.status(201).json(categoria);
@@ -53,15 +53,15 @@ const editarCategoria = async (req = request, res = response) => {
     data.nombre = data.nombre.toUpperCase();
     data.usuario = req.usuario._id;
 
-    const categoriaEditada = await CategoriaModel.findByIdAndUpdate(id, data, { new: true });
+    const categoriaEditada = await Categoria.findByIdAndUpdate(id, data, { new: true });
 
     res.json(categoriaEditada);
 };
 
 const eliminarCategoria = async (req = request, res = response) => {
-    
+
     const { id } = req.params;
-    const eliminado = await CategoriaModel.findByIdAndUpdate(id, { estado: false }, { new: true });
+    const eliminado = await Categoria.findByIdAndUpdate(id, { estado: false }, { new: true });
 
     res.json(eliminado);
 };

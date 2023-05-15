@@ -1,4 +1,3 @@
-
 const { Router } = require('express');
 const { busquedas } = require('../controllers/busquedas.controller');
 

@@ -9,7 +9,8 @@ const categoriaSchema = new Schema({
 });
 
 categoriaSchema.methods.toJSON = function () {
-    const { estado, ...data } = this.toObject();
+    const { _id, estado, ...data } = this.toObject();
+    data.uid = _id;
     return data;
 };
 
